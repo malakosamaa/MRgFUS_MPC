@@ -1,3 +1,5 @@
+from controller.mpc_controller import choose_next_power
+
 from patient_model.patient_model import (
     run_patient_model,
     run_cooling
@@ -46,6 +48,13 @@ def main():
             f"{post_sonication_state['T_margin']:.2f} °C"
         )
 
+        power = choose_next_power(
+            post_sonication_state["T_center"],
+            post_sonication_state["T_edge"],
+            post_sonication_state["T_margin"],
+            power
+        )
+        print(f"Next power command: {power:.1f} W")
         # 2. Cooling phase
         thermal_state = run_cooling(
             post_sonication_state
